@@ -1,4 +1,4 @@
-package two-sum
+package twosum
 
 func twoSumAttempt1(nums []int, target int) []int {
 	var result []int

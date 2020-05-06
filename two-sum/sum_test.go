@@ -1,4 +1,4 @@
-package two-sum
+package twosum
 
 import (
 	"math/rand"
