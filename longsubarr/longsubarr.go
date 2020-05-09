@@ -40,44 +40,6 @@ func longestSubarray(nums []int, limit int) int {
 	return res
 }
 
-func longestSubarrayV1(nums []int, limit int) int {
-	if len(nums) > 100000 {
-		return 0
-	}
-	max := 0
-
-	head := 0
-	for head < len(nums) {
-		i := head
-	loop:
-		for ; i < len(nums); i++ {
-			subarr := nums[head : i+1]
-			//fmt.Println(subarr, head)
-
-			tmax := true
-			for k := 0; k < len(subarr); k++ {
-				for l := 0; l < len(subarr); l++ {
-					if abs(subarr[l]-subarr[k]) > limit {
-						tmax = false
-						break loop
-					}
-				}
-			}
-
-			if tmax && len(subarr) > max {
-				max = len(subarr)
-			}
-		}
-		if i == len(nums) {
-			break
-		}
-
-		head++
-	}
-
-	return max
-}
-
 func abs(x int) int {
 	if x < 0 {
 		return -x

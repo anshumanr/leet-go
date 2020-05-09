@@ -2,6 +2,8 @@ package longsubarr
 
 import "testing"
 
+var result int
+
 var tests = []struct {
 	nums  []int
 	limit int
@@ -106,15 +108,6 @@ func TestLongestSubarray(t *testing.T) {
 	}
 }
 
-func TestLongestSubarrayV1(t *testing.T) {
-	for i, v := range tests {
-		got := longestSubarrayV1(v.nums, v.limit)
-		if got != v.want {
-			t.Errorf("TestLongestSubarrayV1: Test %d, got: %d, want: %d", i+1, got, v.want)
-		}
-	}
-}
-
 func TestLongestSubarrayV2(t *testing.T) {
 	for i, v := range tests {
 		got := longestSubarrayV2(v.nums, v.limit)
@@ -134,4 +127,31 @@ func TestLongestSubarrayV3(t *testing.T) {
 			break
 		}
 	}
+}
+
+func BenchmarkAtoi(b *testing.B) {
+	funcs := []struct {
+		name string
+		f    func(nums []int, limit int) int
+	}{
+		{"longestSubarrayV3", longestSubarrayV3},
+		{"longestSubarray", longestSubarray},
+	}
+
+	var res int
+	for _, fun := range funcs {
+
+		b.Run(fun.name, func(b *testing.B) {
+			b.ReportAllocs()
+			b.ResetTimer()
+			for k := 0; k < b.N; k++ {
+				res = fun.f(tests[8].nums, tests[8].limit)
+			}
+
+		})
+
+		//fmt.Println(result, arr[result[0]], arr[result[1]])
+	}
+
+	result = res
 }
