@@ -15,4 +15,4 @@ PASS
 ok      _/home/anshuman/code/addtwonum  6.134s
 ```
 
-`Note` - 4ms solution is clever clobbers the input
+`Note` - 4ms solution is clever but clobbers the input. V1 implementation fails for large inputs
