@@ -1,7 +1,6 @@
-#### 05/08/2020
+### 05/08/2020
 
-Benchmark 1: input size: 10^5, diff: 6466408
-
+#####Benchmark 1: input size: 10^5, diff: 6466408
 ```
 ~/code/longsubarr$ go test -run=XXX -bench=.
 goos: linux
@@ -14,7 +13,7 @@ ok      longsubarr      2.368s
 ```
 
 
-Benchmark 1: input size: 10^5, diff: 1000000000
+#####Benchmark 1: input size: 10^5, diff: 1000000000
 ```
 ~/code/longsubarr$ 
 anshuman@anshuman-Inspiron-15:~/code/longsubarr$ go test -run=XXX -bench=.
