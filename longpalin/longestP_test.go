@@ -6,6 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var result string
+
 func TestLongestPalindromeV1(t *testing.T) {
 	tests := []struct {
 		input string
@@ -76,6 +78,11 @@ func TestLongestPalindromeV3(t *testing.T) {
 		want1 string
 		want2 string
 	}{
+		{"abcda", "a", "b"},
+		{"maddam", "maddam", ""},
+		{"maddammaddam", "maddammaddam", ""},
+		{"maddammaddamb", "maddammaddam", ""},
+		{"cmaddammaddamb", "maddammaddam", ""},
 		{"adam", "ada", ""},
 		{"adama", "ada", "ama"},
 		{"adada", "adada", ""},
@@ -117,4 +124,59 @@ func TestLongestPalindromeV3(t *testing.T) {
 			t.Errorf("ERROR: Wanted: %s or %s; got %s", v.want1, v.want2, got)
 		}
 	}
+}
+
+func BenchmarkLongestPalindrome(b *testing.B) {
+	inputs := []string{
+		"abcda",
+		"maddam",
+		"maddammaddam",
+		"maddammaddamb",
+		"cmaddammaddamb",
+		"adam",
+		"adama",
+		"adada",
+		"aaaa",
+		"aaaab",
+		"baaaa",
+		"eeeee",
+		"ccc",
+		"civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth",
+		"civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearthtraeehtmorfhsireptonllahselpoepehtrofelpoepehtybelpoepehtfotnemnrevogtahtdnamodeerffohtribwenaevahllahsdoGredsnunoitansihttahtniavnideidevahtonllahsdaedesehttahtevloserylhgiherehewtahtnoitovedfoerusaemllufptsalehtevagyehthcihwrofesuactahtotnoitoveddesaercniekatewdaedderonohesehtmorftahtsuerofebgniniamerksfadttaergehtotdetacidederehebotsurofrehtarsitIdecnavdaylbonosrafsuhtevaherehthguofohwyehthcihwkrowdehsinifnluehtoterehdetacidedebotrehtargnivilehtsurofsitIerehdidyehttahwtegrofrevennactituberehyasewtahwrebmemergnolroneltonelttilllifwsdadlrowehgTtcartedroddaotrewnoproopruoevobaraftidetarcesnocevaherehdelggurtsohwdaeddnagnivilnemlevarbehTdnuorgsihtwollahtonnacewetarcesnoctonnacewetacidedtonnacewesnesregralanituBsihtoddluohsewtahtreporpdnagnafrehtegotlasitIevilthgimnoitantahttahtsevilriehtevagerehohwesohtrofecalpgnitserlanifasadleiftahtfonoitropaetapcidedotemocevaheWrawtahztfodlmeifelttabtaerganotemqeraeWerudnegnolnacdetacidedosdnadeviecnocosnoitranynaronoitpantahtrehtehwgnitsetrawlivic",
+		"civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldlmeifelttabtaerganotemqeraeWerudnegnolnacdetacidedosdnadeviecnocosnoitranynaronoitpantahtrehtehwgnitsetrawlivic", "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldlmeifelttabtaerganotemqeraeWerudnegnolnacdetacidedosdnadeviecnocosnoitranynaronoitpantahtrehtehwgnitsetrawlivic",
+		"kajsnoiewpwerjfpwefnkjcaacaacaacj",
+		"bahgfdabababahgfdbad",
+		"babad",
+		"cbbd",
+		"a",
+		"ac",
+		"acc",
+		"abc",
+		"acac",
+	}
+
+	l := len(inputs)
+
+	funcs := []struct {
+		name string
+		f    func(s string) string
+	}{
+		{"myV3", longestPalindromeV3},
+		{"leet-0ms", longestPalindrome0ms},
+		{"leet-4ms", longestPalindrome4ms},
+	}
+
+	var res string
+	for _, fun := range funcs {
+		b.Run(fun.name, func(b *testing.B) {
+			b.ReportAllocs()
+			b.ResetTimer()
+			for k := 0; k < b.N; k++ {
+				res = fun.f(inputs[k%l])
+			}
+
+		})
+	}
+
+	result = res
 }
