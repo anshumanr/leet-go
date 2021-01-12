@@ -89,40 +89,52 @@ func longestPalindromeV2(s string) string {
 	return subs
 }
 
-func longestPalindromeV3(s string) string {
+func findPalindrome(s string) string {
 	l := len(s)
-	subs := string(s[0])
 
-	switch l {
-	case 0:
-		return ""
-	case 1:
+	if l <= 1 {
 		return s
-	case 2:
+	}
+
+	if l == 2 {
 		if s[0] != s[1] {
 			return string(s[0])
 		} else {
 			return s
 		}
-	case 3:
-		if s[0] == s[2] {
-			return s
-		} else if s[0] == s[1] {
-			return s[:2]
-		} else if s[1] == s[2] {
-			return s[1:]
-		} else {
-			return string(s[0])
-		}
 	}
+
+	left, right := -1, -1
+	i, k := 0, l-1
+	for i = 0; i < l && i <= k; i++ {
+		if s[i] == s[k] {
+			if left == -1 || right == -1 {
+				left, right = i, k
+			}
+		} else {
+			left, right = -1, -1
+		}
+		k--
+	}
+
+	if left != -1 && right != -1 {
+		return s[left : right+1]
+	}
+
+	return ""
+}
+
+func longestPalindromeV3(s string) string {
+	l := len(s)
+	subs := string(s[0])
 
 	epvt := 0
 	opvt := 1
 	even, odd := false, false
 	oleft, oright := -1, -1
 	eleft, eright := -1, -1
-	i := 2
-	for i = 1; i < l; i++ {
+	i := 0
+	for i = 0; i < l; i++ {
 		//even length palindrome
 		for i-epvt >= 0 && i+epvt+1 < l {
 			if s[i-epvt] == s[i+1+epvt] {
@@ -197,39 +209,89 @@ func longestPalindromeV3(s string) string {
 	return subs
 }
 
-func findPalindrome(s string) string {
+func longestPalindromeV4(s string) string {
 	l := len(s)
+	subs := string(s[0])
 
-	if l <= 1 {
-		return s
-	}
-
-	if l == 2 {
-		if s[0] != s[1] {
-			return string(s[0])
-		} else {
-			return s
-		}
-	}
-
-	left, right := -1, -1
-	i, k := 0, l-1
-	for i = 0; i < l && i <= k; i++ {
-		if s[i] == s[k] {
-			if left == -1 || right == -1 {
-				left, right = i, k
+	epvt := 0
+	opvt := 1
+	even, odd := false, false
+	oleft, oright := -1, -1
+	eleft, eright := -1, -1
+	i := 0
+	for i = 0; i < l; i++ {
+		//even length palindrome
+		for i-epvt >= 0 && i+epvt+1 < l {
+			if s[i-epvt] == s[i+1+epvt] {
+				eleft = i - epvt
+				eright = i + 1 + epvt
+				even = true
+			} else if even {
+				t := s[eleft : eright+1]
+				if len(t) > len(subs) {
+					subs = t
+				}
+				epvt = 0
+				even = false
+				eleft, eright = -1, -1
+				break
+			} else {
+				break
 			}
-		} else {
-			left, right = -1, -1
+			epvt++
 		}
-		k--
+
+		if even && eleft != -1 && eright != -1 {
+			if eright-eleft == l {
+				return s[eleft : eright+1]
+			}
+
+			t := s[eleft : eright+1]
+			if len(t) > len(subs) {
+				subs = t
+			}
+			even = false
+			epvt = 0
+			eleft, eright = -1, -1
+		}
+
+		//odd length palindrome
+		for i-opvt >= 0 && i+opvt < l {
+			if s[i+opvt] == s[i-opvt] {
+				oleft = i - opvt
+				oright = i + opvt
+				odd = true
+			} else if odd {
+				t := s[oleft : oright+1]
+				if len(t) > len(subs) {
+					subs = t
+				}
+				odd = false
+				opvt = 1
+				oleft, oright = -1, -1
+				break
+			} else {
+				break
+			}
+			opvt++
+		}
+
+		if odd && oleft != -1 && oright != -1 {
+			if oright-oleft == l {
+				return s[eleft : eright+1]
+			}
+
+			t := s[oleft : oright+1]
+			if len(t) > len(subs) {
+				subs = t
+			}
+			odd = false
+			opvt = 1
+			oleft, oright = -1, -1
+		}
 	}
 
-	if left != -1 && right != -1 {
-		return s[left : right+1]
-	}
-
-	return ""
+	return subs
 }
 
 func longestPalindrome0ms(s string) string {
