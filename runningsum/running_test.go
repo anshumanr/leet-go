@@ -40,7 +40,7 @@ func TestRunningSum(t *testing.T) {
 		t.Log("got: ", got, ", expected: ", test.nums)
 
 		for i, val := range test.expectedNums {
-			assert.Equal(t, val, test.expectedNums[i])
+			assert.Equal(t, val, got[i])
 		}
 	}
 }
