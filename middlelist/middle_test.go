@@ -76,7 +76,22 @@ func TestMiddleNode(t *testing.T) {
 	}
 }
 
-func BenchmarkMerge2Lists(b *testing.B) {
+func TestMiddleNode_FastPtr(t *testing.T) {
+	for i, test := range tests {
+		t.Log("test ", i+1)
+
+		got := middleNode_fastptr(test.input)
+		assert.Equal(t, test.expected, got)
+		for got != nil {
+			fmt.Println("test ", i+1, got.Val)
+			got = got.Next
+		}
+
+		t.Log("got: ", got, ", expected: ", test.expected)
+	}
+}
+
+func BenchmarkMiddleNode(b *testing.B) {
 	list1 := &ListNode{1, &ListNode{2, &ListNode{4, nil}}}
 	list2 := &ListNode{1, &ListNode{3, &ListNode{4, nil}}}
 	list3 := &ListNode{5, &ListNode{6, &ListNode{7, nil}}}
@@ -91,6 +106,7 @@ func BenchmarkMerge2Lists(b *testing.B) {
 		f    func(list *ListNode) *ListNode
 	}{
 		{"mine", middleNode},
+		{"mine-fp", middleNode_fastptr},
 		{"leet-1ms", middleNode_leet0ms},
 	}
 

@@ -19,6 +19,20 @@ func middleNode(head *ListNode) *ListNode {
 	return arr[i/2]
 }
 
+func middleNode_fastptr(head *ListNode) *ListNode {
+	slow, fast := head, head
+
+	for {
+		if fast == nil || fast.Next == nil {
+			break
+		}
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+
+	return slow
+}
+
 func middleNode_leet0ms(head *ListNode) *ListNode {
 
 	arr := []*ListNode{head}
